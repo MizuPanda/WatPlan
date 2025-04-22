@@ -1,0 +1,208 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`UW requirement descriptions AFM sample 1`] = `
+{
+  "antireq": [
+    {
+      "catalog": "330",
+      "subject": "CS",
+    },
+  ],
+  "minLevel": {
+    "term": "B",
+    "year": 2,
+  },
+  "prereq": {
+    "n": undefined,
+    "nodes": [
+      {
+        "catalog": "102",
+        "subject": "AFM",
+      },
+      {
+        "catalog": "182",
+        "subject": "AFM",
+      },
+    ],
+    "op": "OR",
+  },
+  "requiredPlans": [
+    "Accounting and Financial Management",
+    "Mathematics/Chartered Professional Accountancy",
+    "Biotechnology/Chartered Professional Accountancy",
+  ],
+}
+`;
+
+exports[`UW requirement descriptions Null sample 1`] = `{}`;
+
+exports[`UW requirement descriptions Optometry 1`] = `
+{
+  "antireq": [
+    {
+      "catalog": "441",
+      "subject": "BIOL",
+    },
+  ],
+  "studentGroup": "Optometry",
+}
+`;
+
+exports[`UW requirement descriptions T1 1`] = `
+{
+  "studentGroup": "PSYCH Grad",
+}
+`;
+
+exports[`UW requirement descriptions T2 1`] = `
+{
+  "antireq": [
+    {
+      "catalog": "280",
+      "subject": "ARTS",
+    },
+    {
+      "catalog": "221",
+      "subject": "ECON",
+    },
+    {
+      "catalog": "278",
+      "subject": "ENVS",
+    },
+    {
+      "catalog": "222",
+      "subject": "KIN",
+    },
+    {
+      "catalog": "314",
+      "subject": "PSCI",
+    },
+    {
+      "catalog": "292",
+      "subject": "PSYCH",
+    },
+    {
+      "catalog": "371",
+      "subject": "REC",
+    },
+    {
+      "catalog": "250R",
+      "subject": "SWREN",
+    },
+    {
+      "catalog": "250R",
+      "subject": "SDS",
+    },
+    {
+      "catalog": "280",
+      "subject": "LS",
+    },
+    {
+      "catalog": "280",
+      "subject": "SOC",
+    },
+    {
+      "catalog": "202",
+      "subject": "STAT",
+    },
+  ],
+  "prereq": {
+    "n": 1,
+    "nodes": [
+      {
+        "catalog": "101",
+        "subject": "SMF",
+      },
+      {
+        "catalog": "236",
+        "subject": "PSYCH",
+      },
+    ],
+    "op": "N_OF",
+  },
+}
+`;
+
+exports[`UW requirement descriptions T3 1`] = `
+{
+  "coreq": {
+    "nodes": [
+      {
+        "catalog": "458",
+        "subject": "EARTH",
+      },
+    ],
+    "op": "AND",
+  },
+}
+`;
+
+exports[`UW requirement descriptions T4 1`] = `
+{
+  "antireq": [
+    {
+      "catalog": "246E",
+      "subject": "CS",
+    },
+    {
+      "catalog": "247",
+      "subject": "CS",
+    },
+    {
+      "catalog": "342",
+      "subject": "MSE",
+    },
+    {
+      "catalog": "322",
+      "subject": "SYDE",
+    },
+  ],
+  "prereq": {
+    "n": undefined,
+    "nodes": [
+      {
+        "n": undefined,
+        "nodes": [
+          {
+            "n": undefined,
+            "nodes": [
+              {
+                "catalog": "146",
+                "subject": "CS",
+              },
+              {
+                "catalog": "136L",
+                "subject": "CS",
+              },
+            ],
+            "op": "AND",
+          },
+          {
+            "catalog": "138",
+            "minGrade": 60,
+            "subject": "CS",
+          },
+        ],
+        "op": "OR",
+      },
+      {
+        "n": undefined,
+        "nodes": [
+          {
+            "catalog": "136L",
+            "subject": "CS",
+          },
+          {
+            "catalog": "136",
+            "minGrade": 60,
+            "subject": "CS",
+          },
+        ],
+        "op": "AND",
+      },
+    ],
+    "op": "OR",
+  },
+  "studentGroup": "Honours Mathematics",
+}
+`;

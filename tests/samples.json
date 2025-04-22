@@ -1,0 +1,10 @@
+{
+    "AFM sample": "Prereq: AFM 102 or AFM 182; Level at least 2B Accounting and Financial Management, Mathematics/Chartered Professional Accountancy, Biotechnology/Chartered Professional Accountancy students. Antireq: CS 330, 480/490",
+    "Null sample": null,
+    "T1": "Prereq: PSYCH Grad Students Only",
+    "Optometry": "Prereq: Optometry students only. Antireq: BIOL 441",
+    "T2": "Prereq: One of SMF 101, 204, PSYCH 236. Antireq: ARTS 280, ECON 221, ENVS 278, KIN 222, PSCI 314, PSYCH 292, REC 371, SDS/SWREN 250R, SOC/LS 280, STAT 202, 206, 211, 221, 231, 241",
+    "T3": "Coreq: EARTH 458",
+    "T4": "Prereq: (CS 146 and CS 136L) or (a grade of 60% or higher in CS 138) or (CS 136L and a grade of 60% or higher in CS 136); Honours Mathematics students only. Antireq: CS 246E, CS  247, MSE 342, SYDE 322"
+  }
+  
