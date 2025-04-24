@@ -1,0 +1,19 @@
+{
+    "HIST1": "Prereq: At least 0.50 unit in HIST; Level at least 2A",
+    "PSYCH1": "Prereq: LS 101 or LS 206/ PSCI 260",
+    "SOC1": "Prereq: SOC 101/101R",
+    "OPTOM1": "Prereq: OPTOM 106; Optometry students only",
+    "GER1": "Prereq: One of GER 201, 211",
+    "PHAR1": "Prereq: Pharmacy students only",
+    "GLOB1": "Global Governance Doctoral students only",
+    "FINE1": "Prereq: FINE 100; Fine Arts Health and Safety Milestone; Fine Arts Woodshop Workshop Milestone",
+    "PACS1": "Prereq: PACS 202/LS 271; Level at least 2A or Peace and Conflict Studies Diploma students",
+    "CO1": "Prereq: Level at least 2A",
+    "ECON1": "Prereq: ECON 322",
+    "SOC2": "Prereq: SOC 101/101R; Level at least 3A",
+    "LVL1": "Prereq: Level at least 3A",
+    "PHARM2": "Antireq: PHARM 608A Topic 8",
+    "CS1": "Prereq: One of CS 145, at least 90% in CS 115, at least 70% in CS 116, at least 60% in CS 135. Coreq: CS 136 or CS 146",
+    "CS2": "Prereq: MATH 239 or 249; CO 250 or 255; STAT 230 or 240; Level at least 3A",
+    "CS3": "Prereq: One of CS 116, 136, 138, 146 or (CS 114 with at least 60%; CS 115 or CS 135); Not open to Honours Computer Science, Honours Data Science (BCS, BMATH), BCFM, BSE students. Antireq: BME 292/393, CS 241/241E, 251/251E, SYDE 192"
+}

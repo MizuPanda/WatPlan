@@ -1,0 +1,341 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`cases.json CO1 1`] = `
+{
+  "minLevel": {
+    "term": "A",
+    "year": 2,
+  },
+}
+`;
+
+exports[`cases.json CS1 1`] = `
+{
+  "coreq": {
+    "n": undefined,
+    "nodes": [
+      {
+        "catalog": "136",
+        "subject": "CS",
+      },
+      {
+        "catalog": "146",
+        "subject": "CS",
+      },
+    ],
+    "op": "OR",
+  },
+  "prereq": {
+    "n": 1,
+    "nodes": [
+      {
+        "catalog": "145",
+        "subject": "CS",
+      },
+      {
+        "catalog": "115",
+        "minGrade": 90,
+        "subject": "CS",
+      },
+      {
+        "catalog": "116",
+        "minGrade": 70,
+        "subject": "CS",
+      },
+      {
+        "catalog": "135",
+        "minGrade": 60,
+        "subject": "CS",
+      },
+    ],
+    "op": "N_OF",
+  },
+}
+`;
+
+exports[`cases.json CS2 1`] = `
+{
+  "minLevel": {
+    "term": "A",
+    "year": 3,
+  },
+  "prereq": {
+    "n": undefined,
+    "nodes": [
+      {
+        "catalog": "239",
+        "subject": "MATH",
+      },
+      {
+        "catalog": "249",
+        "subject": "MATH",
+      },
+    ],
+    "op": "OR",
+  },
+}
+`;
+
+exports[`cases.json CS3 1`] = `
+{
+  "antireq": [
+    {
+      "catalog": "292",
+      "subject": "BME",
+    },
+    {
+      "catalog": "393",
+      "subject": "BME",
+    },
+    {
+      "catalog": "241",
+      "subject": "CS",
+    },
+    {
+      "catalog": "241E",
+      "subject": "CS",
+    },
+    {
+      "catalog": "251",
+      "subject": "CS",
+    },
+    {
+      "catalog": "251E",
+      "subject": "CS",
+    },
+    {
+      "catalog": "192",
+      "subject": "SYDE",
+    },
+  ],
+  "bannedPlans": [
+    "Honours Computer Science",
+    "Honours Data Science (BCS",
+    "BMATH)",
+    "BCFM",
+    "BSE",
+  ],
+  "prereq": {
+    "n": 1,
+    "nodes": [
+      {
+        "catalog": "116",
+        "subject": "CS",
+      },
+      {
+        "catalog": "136",
+        "subject": "CS",
+      },
+      {
+        "catalog": "138",
+        "subject": "CS",
+      },
+    ],
+    "op": "N_OF",
+  },
+}
+`;
+
+exports[`cases.json ECON1 1`] = `
+{
+  "prereq": {
+    "nodes": [
+      {
+        "catalog": "322",
+        "subject": "ECON",
+      },
+    ],
+    "op": "AND",
+  },
+}
+`;
+
+exports[`cases.json FINE1 1`] = `
+{
+  "milestones": [
+    "Fine Arts Health and Safety Milestone",
+    "Fine Arts Woodshop Workshop Milestone",
+  ],
+  "prereq": {
+    "nodes": [
+      {
+        "catalog": "100",
+        "subject": "FINE",
+      },
+    ],
+    "op": "AND",
+  },
+}
+`;
+
+exports[`cases.json GER1 1`] = `
+{
+  "prereq": {
+    "n": 1,
+    "nodes": [
+      {
+        "catalog": "201",
+        "subject": "GER",
+      },
+      {
+        "catalog": "211",
+        "subject": "GER",
+      },
+    ],
+    "op": "N_OF",
+  },
+}
+`;
+
+exports[`cases.json GLOB1 1`] = `
+{
+  "studentGroup": "Global Governance Doctoral",
+}
+`;
+
+exports[`cases.json HIST1 1`] = `
+{
+  "minLevel": {
+    "term": "A",
+    "year": 2,
+  },
+  "minUnits": 0.5,
+  "minUnitsSubject": "HIST",
+}
+`;
+
+exports[`cases.json LVL1 1`] = `
+{
+  "minLevel": {
+    "term": "A",
+    "year": 3,
+  },
+}
+`;
+
+exports[`cases.json OPTOM1 1`] = `
+{
+  "prereq": {
+    "nodes": [
+      {
+        "catalog": "106",
+        "subject": "OPTOM",
+      },
+    ],
+    "op": "AND",
+  },
+  "studentGroup": "Optometry",
+}
+`;
+
+exports[`cases.json PACS1 1`] = `
+{
+  "prereq": {
+    "nodes": [
+      {
+        "n": undefined,
+        "nodes": [
+          {
+            "catalog": "202",
+            "subject": "PACS",
+          },
+          {
+            "catalog": "271",
+            "subject": "LS",
+          },
+        ],
+        "op": "OR",
+      },
+      {
+        "n": undefined,
+        "nodes": [
+          undefined,
+          {
+            "n": undefined,
+            "nodes": [
+              undefined,
+              undefined,
+            ],
+            "op": "AND",
+          },
+        ],
+        "op": "OR",
+      },
+    ],
+    "op": "AND",
+  },
+}
+`;
+
+exports[`cases.json PHAR1 1`] = `
+{
+  "studentGroup": "Pharmacy",
+}
+`;
+
+exports[`cases.json PHARM2 1`] = `{}`;
+
+exports[`cases.json PSYCH1 1`] = `
+{
+  "prereq": {
+    "n": undefined,
+    "nodes": [
+      {
+        "catalog": "101",
+        "subject": "LS",
+      },
+      {
+        "catalog": "206",
+        "subject": "LS",
+      },
+      {
+        "catalog": "260",
+        "subject": "PSCI",
+      },
+    ],
+    "op": "OR",
+  },
+}
+`;
+
+exports[`cases.json SOC1 1`] = `
+{
+  "prereq": {
+    "n": undefined,
+    "nodes": [
+      {
+        "catalog": "101",
+        "subject": "SOC",
+      },
+      {
+        "catalog": "101R",
+        "subject": "SOC",
+      },
+    ],
+    "op": "OR",
+  },
+}
+`;
+
+exports[`cases.json SOC2 1`] = `
+{
+  "minLevel": {
+    "term": "A",
+    "year": 3,
+  },
+  "prereq": {
+    "n": undefined,
+    "nodes": [
+      {
+        "catalog": "101",
+        "subject": "SOC",
+      },
+      {
+        "catalog": "101R",
+        "subject": "SOC",
+      },
+    ],
+    "op": "OR",
+  },
+}
+`;

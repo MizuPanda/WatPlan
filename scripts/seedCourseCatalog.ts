@@ -10,9 +10,41 @@ const SUPABASE = createClient(
   process.env.SUPABASE_SERVICE_KEY!
 );
 const UW_API = process.env.UW_API_KEY!;
-const TERM   = process.env.SPRING_2025_TERM_CODE!;
+const TERM   = process.env.FALL_2024_TERM_CODE!;
 
 async function seedCourseCatalog() {
+  // 1️⃣ Upsert term
+  // Fetch term info from the API
+  const termRes = await fetch(
+    `https://openapi.data.uwaterloo.ca/v3/Terms/${TERM}`, {
+      headers: { 'x-api-key': UW_API }
+    }
+  )
+
+  const termData = await termRes.json()
+
+  const { 
+    termCode,
+    name,
+    nameShort,
+    termBeginDate,
+    termEndDate,
+    associatedAcademicYear 
+  } = termData
+
+  const { error: termError } = await SUPABASE
+  .from('terms')
+  .upsert({
+    id: termCode,
+    name: name,
+    name_short: nameShort,
+    start_date: termBeginDate,
+    end_date: termEndDate,
+    academic_year: associatedAcademicYear
+  })
+
+  if (termError) console.error('❌ Term upsert error:', termError)
+  
   // 1️⃣ Fetch
   const courses: any[] = await fetch(
     `https://openapi.data.uwaterloo.ca/v3/Courses/${TERM}`,
@@ -34,6 +66,7 @@ async function seedCourseCatalog() {
     associated_academic_org_code:   c.associatedAcademicOrgCode,
     description_abbreviated: c.descriptionAbbreviated,
     description:              c.description,
+    requirements:  c.requirementsDescription,
     grading_basis:            c.gradingBasis
   }));
 

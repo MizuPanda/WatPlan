@@ -1,42 +1,62 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`UW requirement descriptions AFM sample 1`] = `
+exports[`samples.json AFM sample 1`] = `
 {
   "antireq": [
     {
       "catalog": "330",
       "subject": "CS",
     },
+    {
+      "catalog": "480",
+      "subject": "CS",
+    },
+    {
+      "catalog": "490",
+      "subject": "CS",
+    },
   ],
-  "minLevel": {
-    "term": "B",
-    "year": 2,
-  },
   "prereq": {
-    "n": undefined,
     "nodes": [
       {
-        "catalog": "102",
-        "subject": "AFM",
+        "n": undefined,
+        "nodes": [
+          {
+            "catalog": "102",
+            "subject": "AFM",
+          },
+          {
+            "catalog": "182",
+            "subject": "AFM",
+          },
+        ],
+        "op": "OR",
       },
       {
-        "catalog": "182",
-        "subject": "AFM",
+        "n": undefined,
+        "nodes": [
+          undefined,
+          undefined,
+          {
+            "n": undefined,
+            "nodes": [
+              undefined,
+              undefined,
+            ],
+            "op": "AND",
+          },
+        ],
+        "op": "OR",
       },
     ],
-    "op": "OR",
+    "op": "AND",
   },
-  "requiredPlans": [
-    "Accounting and Financial Management",
-    "Mathematics/Chartered Professional Accountancy",
-    "Biotechnology/Chartered Professional Accountancy",
-  ],
 }
 `;
 
-exports[`UW requirement descriptions Null sample 1`] = `{}`;
+exports[`samples.json Null sample 1`] = `{}`;
 
-exports[`UW requirement descriptions Optometry 1`] = `
+exports[`samples.json Optometry 1`] = `
 {
   "antireq": [
     {
@@ -48,13 +68,13 @@ exports[`UW requirement descriptions Optometry 1`] = `
 }
 `;
 
-exports[`UW requirement descriptions T1 1`] = `
+exports[`samples.json T1 1`] = `
 {
   "studentGroup": "PSYCH Grad",
 }
 `;
 
-exports[`UW requirement descriptions T2 1`] = `
+exports[`samples.json T2 1`] = `
 {
   "antireq": [
     {
@@ -105,12 +125,36 @@ exports[`UW requirement descriptions T2 1`] = `
       "catalog": "202",
       "subject": "STAT",
     },
+    {
+      "catalog": "206",
+      "subject": "STAT",
+    },
+    {
+      "catalog": "211",
+      "subject": "STAT",
+    },
+    {
+      "catalog": "221",
+      "subject": "STAT",
+    },
+    {
+      "catalog": "231",
+      "subject": "STAT",
+    },
+    {
+      "catalog": "241",
+      "subject": "STAT",
+    },
   ],
   "prereq": {
     "n": 1,
     "nodes": [
       {
         "catalog": "101",
+        "subject": "SMF",
+      },
+      {
+        "catalog": "204",
         "subject": "SMF",
       },
       {
@@ -123,7 +167,7 @@ exports[`UW requirement descriptions T2 1`] = `
 }
 `;
 
-exports[`UW requirement descriptions T3 1`] = `
+exports[`samples.json T3 1`] = `
 {
   "coreq": {
     "nodes": [
@@ -137,7 +181,7 @@ exports[`UW requirement descriptions T3 1`] = `
 }
 `;
 
-exports[`UW requirement descriptions T4 1`] = `
+exports[`samples.json T4 1`] = `
 {
   "antireq": [
     {
@@ -164,26 +208,20 @@ exports[`UW requirement descriptions T4 1`] = `
         "n": undefined,
         "nodes": [
           {
-            "n": undefined,
-            "nodes": [
-              {
-                "catalog": "146",
-                "subject": "CS",
-              },
-              {
-                "catalog": "136L",
-                "subject": "CS",
-              },
-            ],
-            "op": "AND",
+            "catalog": "146",
+            "subject": "CS",
           },
           {
-            "catalog": "138",
-            "minGrade": 60,
+            "catalog": "136L",
             "subject": "CS",
           },
         ],
-        "op": "OR",
+        "op": "AND",
+      },
+      {
+        "catalog": "138",
+        "minGrade": 60,
+        "subject": "CS",
       },
       {
         "n": undefined,

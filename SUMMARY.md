@@ -4,24 +4,25 @@
 
 ## Project Context
 
-The WatPlan app aims to help University of Waterloo students plan their courses, manage schedules, track degree requirements, and view transcripts and grades. The app targets cross-platform compatibility (Android, iOS, Web) using **Expo and React Native** for frontend development and **Supabase** as the backend.
+The **WatPlan** app helps University of Waterloo students manage courses, schedules, degree requirements, and view transcripts. It targets Android, iOS, and Web platforms using **Expo and React Native** for the frontend, with **Supabase** as the backend.
 
 ### Key Technical Decisions
 
-- **React Native & Expo** for frontend compatibility across web and mobile platforms.
-- **Supabase** for backend functionality, user authentication (Google OAuth), and PostgreSQL database.
-- **University of Waterloo Open Data API** for real-time course and scheduling information.
-- **Parser implementation** for extracting structured course requirements from natural language text.
-- **Concurrency and batching strategies** for efficient database seeding of over 6000 courses.
+- **React Native & Expo:** Cross-platform frontend.
+- **Supabase:** Backend, authentication (Google OAuth), and PostgreSQL database.
+- **University of Waterloo Open Data API:** Real-time course data.
+- **Database Schema Simplification:** Abandoned complex parsing of course requirements. Added a `requirementsDescription` column to store plain-text descriptions directly in the `course_catalog`.
+- **JSON-based Degree Requirements:** Storing structured degree requirements as JSON in PostgreSQL for flexibility and maintainability.
+- **Concurrency & Batching:** Efficiently seeds over 6000 courses.
 
 ### Tools and Libraries Used
 
 - React Native / Expo
-- Supabase (PostgreSQL backend, auth, storage)
+- Supabase (PostgreSQL, Auth, Storage)
 - Node.js & TypeScript
-- Open Data API from the University of Waterloo
-- node-fetch
-- dotenv
+- University of Waterloo Open Data API
+- Jest (Testing)
+- node-fetch, dotenv
 
 ---
 
@@ -30,95 +31,93 @@ The WatPlan app aims to help University of Waterloo students plan their courses,
 ### `/scripts`
 
 #### `seedCourseCatalog.ts`
+Seeds UW course catalog.
 
-- Seeds the course catalog from UW API.
-- Implements concurrency batching for efficient upserting (chunk size: 500).
-- Defines:
-  - `limitConcurrency()` for controlling parallelism.
+- `limitConcurrency()` (controls parallelism for database inserts)
 
-#### `seedRequirements.ts`
+#### `seedDegreeProgram.ts`
+Upserts degree program details into the database from JSON files.
 
-- Seeds course prerequisites, corequisites, antirequisites, program restrictions, level restrictions, and unit requirements.
-- Implements concurrency batching and deduplication strategies.
-- Functions:
-  - `limitConcurrency()` (similar implementation as above)
-  - `dedupe()` (removes duplicate rows based on composite keys)
+- `seedDegreeProgram()` (parses JSON and upserts data into `degree_programs` and `degree_requirements` tables)
 
-### `/src/utils`
+### `/degrees/math/`
 
-#### `prereqParser.ts`
+- `cs_bsc_reg_2023.json` (structured JSON for CS Regular 2023)
+- `cs_bsc_reg_2024.json` (structured JSON for CS Regular 2024)
 
-- Parses strings describing course prerequisites into structured ASTs.
-- Exports:
-  - `PrereqNode` type
-  - `parsePrereqExpression(input: string): PrereqNode`
-  - Utility functions: `parseOr`, `parseAnd`, `parseTerm`, `splitTopLevel`
+### Database Schema
 
-#### `requirementsParser.ts`
+#### `degree_programs`
+- `degree_id` (TEXT, PK)
+- `plan_year` (INT, PK)
+- `coop` (BOOLEAN, PK)
+- Other metadata fields (name, short_name, faculty, min_terms, min_major_avg, min_cumul_avg, units_rules JSONB)
 
-- Parses the `requirementsDescription` field from UW API into structured JSON.
-- Interfaces:
-  - `PrereqItem`
-  - `GradeReqItem`
-  - `CoreqItem`
-  - `AntireqItem`
-  - `ProgramRestriction`
-  - `LevelRestriction`
-  - `UnitRequirement`
-  - `Requirements` (aggregates all requirement types)
-- Functions:
-  - `parseRequirements(input: string): Requirements`
-  - `flattenPrereqAST()`
-  - `splitCodes()`
+#### `degree_requirements`
+- `degree_id` (TEXT, FK to degree_programs)
+- `plan_year` (INT, FK to degree_programs)
+- `coop` (BOOLEAN, FK to degree_programs)
+- `spec` (JSONB, entire JSON requirements spec)
 
 ---
 
-## Known Issues, Limitations, and Edge Cases
+## Known Issues & Edge Cases
 
-- **Prerequisite Parsing**:
-  - The parser currently encounters issues handling nested AND/OR logic accurately, potentially misassigning group IDs.
-  - Some courses with complex natural language descriptions (e.g., multiple nested conditions, unusual phrasing) may not be parsed correctly yet.
-  
-- **Upsert Operations**:
-  - Without deduplication, multiple identical composite keys can cause PostgreSQL upsert errors ("ON CONFLICT DO UPDATE command cannot affect row a second time").
-
-- **Performance Considerations**:
-  - Current batch processing might need optimization or smaller chunk sizes if scaling further.
+- **Supabase UI Bug:** Boolean fields (`coop`) occasionally displayed incorrectly (text vs boolean issue), purely visual and doesn't impact database integrity.
 
 ---
 
-## Remaining TODOs (Actionable Prompts for LLMs)
+## Remaining TODOs (Actionable LLM Prompts)
 
-### Task 1: Debug and Refine Requirements Parser
-- **Prompt**:
-  - "Analyze and debug the `flattenPrereqAST()` function in `requirementsParser.ts`. Ensure it handles complex nested prerequisite logic (mixed AND/OR clauses) accurately, with consistent group IDs."
+### Task 1: Complete User Authentication
 
-### Task 2: Enhance Parsing Robustness
-- **Prompt**:
-  - "Implement additional regex patterns and parsing rules in `requirementsParser.ts` and `prereqParser.ts` to handle more variations of course descriptions and edge cases. Ensure comprehensive coverage by testing with diverse real-world examples."
+**Prompt:**
+"Complete the Supabase user authentication setup in React Native. Ensure Google OAuth login/logout functionality works seamlessly."
 
-### Task 3: Database Integrity Checks
-- **Prompt**:
-  - "Develop a script or SQL queries to cross-reference `course_prereqs` and related tables against `course_catalog` to identify missing or inconsistent course references. Report discrepancies clearly."
+### Task 2: Setup User Database Schema
 
-### Task 4: Performance Optimization
-- **Prompt**:
-  - "Profile and optimize the database seeding scripts (`seedCourseCatalog.ts`, `seedRequirements.ts`). Suggest improved batching strategies or alternative approaches to further reduce execution time."
+**Prompt:**
+"Design and implement the Supabase database schema for user profiles, including fields for degree plan association (degree_id, plan_year, coop), completed courses, and other user-specific data."
 
-### Task 5: Comprehensive Error Handling
-- **Prompt**:
-  - "Implement detailed logging and error handling mechanisms within all seeding and parsing scripts. Include explicit error messages, row identifiers, and actionable debugging information."
+### Task 3: Build Login UI
+
+**Prompt:**
+"Implement a polished login screen in React Native using Expo, supporting Google OAuth via Supabase authentication."
+
+### Task 4: Degree Program Parser (Roadmap Builder)
+
+**Prompt:**
+"Write a TypeScript parser to interpret structured JSON degree requirements stored in the database. This parser should extract the requirements and verify if the user's course selections satisfy these requirements."
+
+### Task 5: Roadmap Builder UI
+
+**Prompt:**
+"Create the frontend UI components for the Roadmap Builder feature, allowing users to visualize and adjust their academic course plans according to parsed degree requirements."
+
+### Task 6: Integrate User Course Selections
+
+**Prompt:**
+"Develop functionality for users to mark courses as completed or planned, integrating these selections into the roadmap builder to display progress towards degree completion."
 
 ---
 
 ## Current Status and Next Steps
 
-Currently, the course catalog has been successfully seeded with over 6000 courses. However, the requirements parser remains problematic. The immediate next step is **refining the parser implementation** (`requirementsParser.ts` and `prereqParser.ts`) to handle complex course descriptions robustly and accurately assign prerequisite groups.
+### Current Status
 
-Once the parser accurately captures all variations and edge cases:
+The UW course catalog (~6000 courses) is seeded into Supabase, and the structured JSON-based degree requirements for two CS Regular programs (2023 and 2024) are successfully stored in the database. The previous complex parsing approach has been abandoned in favor of directly storing plain-text course requirement descriptions and structured JSON-based degree requirements.
 
-- Re-run requirement seeding to ensure database consistency.
-- Perform comprehensive database integrity checks to validate references.
-- Optimize performance and enhance error handling and logging.
+### Immediate Next Steps
 
-Address these parser issues first, as they form the backbone for correctly managing degree roadmaps and course eligibility logic moving forward.
+- **User Authentication:** Finish user authentication with Google OAuth.
+- **User Schema:** Design and implement the user database schema.
+- **Login Page UI:** Create a smooth login experience.
+- **Roadmap Builder Preparation:** Develop the parser for JSON degree requirements and start integrating it into a user-friendly roadmap builder UI.
+
+---
+
+## Important Best Practices (Updated)
+
+- **JSON-based Requirements:** Maintain structured, versioned JSON files for each degree program, providing flexibility and ease of updates.
+- **Minimal Schema Complexity:** Keep the database schema straightforward, leveraging JSONB for complex nested structures.
+- **Clear Separation of Concerns:** Keep the logic of parsing degree requirements distinct from frontend UI implementation.
