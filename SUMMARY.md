@@ -9,11 +9,11 @@ The **WatPlan** app helps University of Waterloo students manage courses, schedu
 ### Key Technical Decisions
 
 - **React Native & Expo:** Cross-platform frontend.
-- **Supabase:** Backend, authentication (Google OAuth), and PostgreSQL database.
+- **Supabase:** Backend, authentication (email-based), and PostgreSQL database.
 - **University of Waterloo Open Data API:** Real-time course data.
-- **Database Schema Simplification:** Abandoned complex parsing of course requirements. Added a `requirementsDescription` column to store plain-text descriptions directly in the `course_catalog`.
+- **Database Schema Simplification:** Abandoned complex parsing of course requirements; added a `requirementsDescription` column to store plain-text descriptions directly in the `course_catalog`.
 - **JSON-based Degree Requirements:** Storing structured degree requirements as JSON in PostgreSQL for flexibility and maintainability.
-- **Concurrency & Batching:** Efficiently seeds over 6000 courses.
+- **Modal-based Dropdowns:** Used React Native Modal to resolve cross-platform dropdown visibility and scrolling issues.
 
 ### Tools and Libraries Used
 
@@ -23,6 +23,7 @@ The **WatPlan** app helps University of Waterloo students manage courses, schedu
 - University of Waterloo Open Data API
 - Jest (Testing)
 - node-fetch, dotenv
+- React Navigation
 
 ---
 
@@ -31,19 +32,17 @@ The **WatPlan** app helps University of Waterloo students manage courses, schedu
 ### `/scripts`
 
 #### `seedCourseCatalog.ts`
-Seeds UW course catalog.
-
+- Seeds UW course catalog.
 - `limitConcurrency()` (controls parallelism for database inserts)
 
 #### `seedDegreeProgram.ts`
-Upserts degree program details into the database from JSON files.
-
+- Upserts degree program details from JSON files into the database.
 - `seedDegreeProgram()` (parses JSON and upserts data into `degree_programs` and `degree_requirements` tables)
 
 ### `/degrees/math/`
 
-- `cs_bsc_reg_2023.json` (structured JSON for CS Regular 2023)
-- `cs_bsc_reg_2024.json` (structured JSON for CS Regular 2024)
+- `cs_bsc_reg_2023.json`
+- `cs_bsc_reg_2024.json`
 
 ### Database Schema
 
@@ -51,53 +50,57 @@ Upserts degree program details into the database from JSON files.
 - `degree_id` (TEXT, PK)
 - `plan_year` (INT, PK)
 - `coop` (BOOLEAN, PK)
-- Other metadata fields (name, short_name, faculty, min_terms, min_major_avg, min_cumul_avg, units_rules JSONB)
+- Additional metadata fields (name, short_name, faculty, min_terms, min_major_avg, min_cumul_avg, units_rules JSONB)
 
 #### `degree_requirements`
 - `degree_id` (TEXT, FK to degree_programs)
 - `plan_year` (INT, FK to degree_programs)
 - `coop` (BOOLEAN, FK to degree_programs)
-- `spec` (JSONB, entire JSON requirements spec)
+- `spec` (JSONB, structured JSON requirements)
+
+#### `profiles`
+- `id` (TEXT, PK)
+- `email` (TEXT, UNIQUE)
+- `username` (TEXT)
+- `created_at` (TIMESTAMPTZ)
+- `current_degree_id` (TEXT)
+- `current_plan_year` (INT)
+- `current_coop` (BOOLEAN)
+
+#### `user_courses`
+- `user_id` (TEXT, FK to profiles)
+- `course_code` (TEXT, FK to course_catalog)
+- `term` (TEXT, FK to terms)
+- `completed` (BOOLEAN)
 
 ---
 
 ## Known Issues & Edge Cases
 
-- **Supabase UI Bug:** Boolean fields (`coop`) occasionally displayed incorrectly (text vs boolean issue), purely visual and doesn't impact database integrity.
+- **Supabase UI Bug:** Boolean fields (`coop`) occasionally displayed incorrectly (visual only, doesn't impact data).
+- **Dropdown UI on Mobile vs Web:** Previously had issues with dropdown rendering differences across platforms, now resolved with Modals.
 
 ---
 
 ## Remaining TODOs (Actionable LLM Prompts)
 
-### Task 1: Complete User Authentication
+### Task 1: User Authentication Enhancements
+**Prompt:** "Enhance the existing email-based Supabase authentication in React Native. Implement password reset and email verification flows."
 
-**Prompt:**
-"Complete the Supabase user authentication setup in React Native. Ensure Google OAuth login/logout functionality works seamlessly."
+### Task 2: Degree Requirements Parser
+**Prompt:** "Write a TypeScript parser that can interpret JSON-based degree requirements from the database and verify user course selections against these requirements."
 
-### Task 2: Setup User Database Schema
+### Task 3: Roadmap Builder Frontend
+**Prompt:** "Develop React Native components for the Roadmap Builder, allowing users to create, view, and edit academic plans according to their parsed degree requirements."
 
-**Prompt:**
-"Design and implement the Supabase database schema for user profiles, including fields for degree plan association (degree_id, plan_year, coop), completed courses, and other user-specific data."
+### Task 4: Course Completion Integration
+**Prompt:** "Implement functionality to let users mark courses as completed. Integrate this status into the roadmap builder to visually display user progress."
 
-### Task 3: Build Login UI
+### Task 5: Grades and GPA Tracker
+**Prompt:** "Create a Grades Tracker component allowing users to input course grades, calculate GPA dynamically, and visualize performance trends over terms."
 
-**Prompt:**
-"Implement a polished login screen in React Native using Expo, supporting Google OAuth via Supabase authentication."
-
-### Task 4: Degree Program Parser (Roadmap Builder)
-
-**Prompt:**
-"Write a TypeScript parser to interpret structured JSON degree requirements stored in the database. This parser should extract the requirements and verify if the user's course selections satisfy these requirements."
-
-### Task 5: Roadmap Builder UI
-
-**Prompt:**
-"Create the frontend UI components for the Roadmap Builder feature, allowing users to visualize and adjust their academic course plans according to parsed degree requirements."
-
-### Task 6: Integrate User Course Selections
-
-**Prompt:**
-"Develop functionality for users to mark courses as completed or planned, integrating these selections into the roadmap builder to display progress towards degree completion."
+### Task 6: Transcript Viewer
+**Prompt:** "Build a UI component to display an unofficial transcript based on the user's completed courses, integrating seamlessly with the existing Supabase data."
 
 ---
 
@@ -105,19 +108,21 @@ Upserts degree program details into the database from JSON files.
 
 ### Current Status
 
-The UW course catalog (~6000 courses) is seeded into Supabase, and the structured JSON-based degree requirements for two CS Regular programs (2023 and 2024) are successfully stored in the database. The previous complex parsing approach has been abandoned in favor of directly storing plain-text course requirement descriptions and structured JSON-based degree requirements.
+- The UW course catalog (~6000 courses) is seeded successfully.
+- Structured JSON-based degree requirements for two CS Regular programs (2023, 2024) are stored.
+- Implemented a robust cross-platform dropdown solution using Modal components.
+- Basic user authentication via email (no Google OAuth).
 
 ### Immediate Next Steps
 
-- **User Authentication:** Finish user authentication with Google OAuth.
-- **User Schema:** Design and implement the user database schema.
-- **Login Page UI:** Create a smooth login experience.
-- **Roadmap Builder Preparation:** Develop the parser for JSON degree requirements and start integrating it into a user-friendly roadmap builder UI.
+- Implement advanced authentication features (password reset, verification).
+- Develop a robust JSON-based degree requirement parser.
+- Complete UI integration for roadmap building and course selection.
 
 ---
 
-## Important Best Practices (Updated)
+## Important Best Practices
 
-- **JSON-based Requirements:** Maintain structured, versioned JSON files for each degree program, providing flexibility and ease of updates.
-- **Minimal Schema Complexity:** Keep the database schema straightforward, leveraging JSONB for complex nested structures.
-- **Clear Separation of Concerns:** Keep the logic of parsing degree requirements distinct from frontend UI implementation.
+- **Maintain JSON-based Requirements:** Store degree details in structured, versioned JSON files.
+- **Simple Schema Design:** Prefer JSONB fields for complex nested structures.
+- **Platform-specific UI Testing:** Continuously test across Android, iOS, and Web to ensure UI consistency.
